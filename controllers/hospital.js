@@ -14,7 +14,7 @@ export const getHospitalData = async (req, res) => {
     H.name AS HospitalName,     
     COUNT(DISTINCT P.id) AS TotalPsychiatristCount,          
     COUNT(DISTINCT Pt.id) AS TotalPatientsCount,     
-    GROUP_CONCAT(DISTINCT P.id, " ",P.Name," ",
+    GROUP_CONCAT(DISTINCT "{Id: ",P.id, ", Name: ",P.Name,", PatientCount: ",
     (SELECT
         COUNT(DISTINCT Pt.id) AS PatientCount
     FROM
@@ -24,7 +24,7 @@ export const getHospitalData = async (req, res) => {
     Where P.hospId = H.id and P1.id = P.id
     GROUP BY
         H.id
-    ) SEPARATOR ' - ')  AS PsychiatristDetails 
+    ),"}" SEPARATOR ' , ')  AS PsychiatristDetails 
     FROM     
     hospitals H 
     LEFT JOIN 
