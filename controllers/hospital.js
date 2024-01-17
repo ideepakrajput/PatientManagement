@@ -16,7 +16,7 @@ export const getHospitalData = async (req, res) => {
     Where P.hospId = H.id and P1.id = P.id
     GROUP BY
         H.id
-    ) SEPARATOR '-')  AS PsychiatristDetails 
+    ) SEPARATOR ' - ')  AS PsychiatristDetails 
     FROM     
     hospitals H 
     LEFT JOIN 

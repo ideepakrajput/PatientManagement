@@ -1,8 +1,10 @@
 import connection from "../database.js";
+import bcrypt from "bcrypt";
 
 export const registerPatient = async (req, res) => {
-    const { name, address, email, phone_number, password, photo } = req.body;
-
+    const { name, address, email, phone_number, password, psyId } = req.body;
+    const photo = req.file.filename;
+    const hashPassword = await bcrypt.hash(password, 5);
 
     if (address.length < 10) {
         return res.status(400).json({
@@ -36,8 +38,8 @@ export const registerPatient = async (req, res) => {
         });
     }
 
-    const sql = `INSERT INTO patients (name, address, email, phone_number, password, photo) VALUES (?)`;
-    const values = [name, address, email, phone_number, password, photo];
+    const sql = `INSERT INTO patients (name, address, email, phone_number, password, photo,psyId) VALUES (?)`;
+    const values = [name, address, email, phone_number, hashPassword, photo, psyId];
 
     connection.query(sql, [values], (err, result) => {
         if (err) {

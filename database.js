@@ -1,12 +1,32 @@
-import mysql from "mysql";
+import mysql from "mysql2";
+
+// Create a database
+const createDatabase = () => {
+    const dbConnection = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "Deepak",
+    });
+
+    const sql = `CREATE DATABASE IF NOT EXISTS PatientManagement`;
+
+    dbConnection.query(sql, (err) => {
+        if (err) return console.log(`Error creating database ` + err);
+        console.log(`Database created.`);
+    });
+};
+// createDatabase();
 
 //mySQL Configuration
 const connection = mysql.createConnection({
-    host: "localhost",
+    host: "roundhouse.proxy.rlwy.net",
     user: "root",
-    password: "Deepak",
-    database: "PatientManagement",
+    port: "51035",
+    password: "A-5BB33336G5gchbha1dBeDAH-e64cA2",
+    database: "railway",
 });
+
+// connection.query(`DROP TABLE IF EXISTS patients, psychiatrists, hospitals`);
 
 //Connect to mySQL
 const connect = () => {
@@ -17,15 +37,6 @@ const connect = () => {
 };
 connect();
 
-//Create a database
-const createDatabase = () => {
-    const sql = `CREATE DATABASE IF NOT EXISTS PatientManagement`;
-    connection.query(sql, (err) => {
-        if (err) return console.log(`Error creating database ` + err);
-        console.log(`Database created.`);
-    });
-};
-// createDatabase();
 
 //Create Hospital Table
 const hospitalTables = () => {
@@ -65,9 +76,9 @@ const patientTable = () => {
         address VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
         phone_number VARCHAR(20),
-        password VARCHAR(15) NOT NULL,
-        photo BLOB NOT NULL,
-        psyId INT,
+        password VARCHAR(255) NOT NULL,
+        photo VARCHAR(255) NOT NULL,
+        psyId INT NOT NULL,
         FOREIGN KEY (psyId) REFERENCES psychiatrists(id)
         );`;
 
