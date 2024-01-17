@@ -3,6 +3,14 @@ import bcrypt from "bcrypt";
 
 export const registerPatient = async (req, res) => {
     const { name, address, email, phone_number, password, psyId } = req.body;
+
+    if (!req.file) {
+        return res.status(400).json({
+            status: 400,
+            message: `Please upload a photo.`,
+        });
+    }
+
     const photo = req.file.filename;
     const hashPassword = await bcrypt.hash(password, 5);
 
@@ -50,7 +58,7 @@ export const registerPatient = async (req, res) => {
         }
         return res.status(200).json({
             status: 200,
-            message: `Data inserted successfully`,
+            message: `Patient registered successfully`,
         });
     });
 }

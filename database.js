@@ -26,8 +26,6 @@ const connection = mysql.createConnection({
     database: "railway",
 });
 
-// connection.query(`DROP TABLE IF EXISTS patients, psychiatrists, hospitals`);
-
 //Connect to mySQL
 const connect = () => {
     connection.connect((err) => {
@@ -77,7 +75,7 @@ const patientTable = () => {
         email VARCHAR(255) NOT NULL,
         phone_number VARCHAR(20),
         password VARCHAR(255) NOT NULL,
-        photo VARCHAR(255) NOT NULL,
+        photo BLOB NOT NULL,
         psyId INT NOT NULL,
         FOREIGN KEY (psyId) REFERENCES psychiatrists(id)
         );`;
